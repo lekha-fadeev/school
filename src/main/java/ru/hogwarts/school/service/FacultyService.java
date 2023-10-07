@@ -1,4 +1,4 @@
-package ru.hogwarts.school.service.impl;
+package ru.hogwarts.school.service;
 
 import ru.hogwarts.school.entity.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
