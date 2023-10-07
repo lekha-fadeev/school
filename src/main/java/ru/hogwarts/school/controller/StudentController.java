@@ -1,13 +1,13 @@
 package ru.hogwarts.school.controller;
 
+import ru.hogwarts.school.entity.Student;
 import org.springframework.web.bind.annotation.*;
-import ru.hogwarts.school.model.Student;
-import ru.hogwarts.school.service.StudentService;
+import ru.hogwarts.school.service.impl.StudentService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/student")
 public class StudentController {
 
     private final StudentService studentService;
@@ -16,28 +16,28 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("{id}")
-    public Student get(@PathVariable("id") Long id) {
-        return studentService.get(id);
-    }
-
     @PostMapping
-    public Student add(@RequestBody Student student) {
-        return studentService.add(student);
-    }
-
-    @PutMapping("{id}")
-    public Student update(@PathVariable("id") Long id, @RequestBody Student student) {
-        return studentService.update(id, student);
-    }
-
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") Long id) {
-        studentService.delete(id);
+    public Student create(@RequestBody Student student) {
+        return studentService.add(student.getName(), student.getAge());
     }
 
     @GetMapping
-    public List<Student> getByAge(@RequestParam("age") int age) {
+    public Student get(@RequestParam long id) {
+        return studentService.get(id);
+    }
+
+    @PutMapping
+    public Student update(@RequestBody Student student) {
+        return studentService.update(student.getId(), student.getName(), student.getAge());
+    }
+
+    @DeleteMapping
+    public Student delete(@RequestParam long id) {
+        return studentService.delete(id);
+    }
+
+    @GetMapping("/by-age")
+    public List<Student> getByAge(@RequestParam int age) {
         return studentService.getByAge(age);
     }
 }

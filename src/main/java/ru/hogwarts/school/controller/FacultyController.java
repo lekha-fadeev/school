@@ -1,13 +1,13 @@
 package ru.hogwarts.school.controller;
 
+import ru.hogwarts.school.entity.Faculty;
 import org.springframework.web.bind.annotation.*;
-import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.service.FacultyService;
+import ru.hogwarts.school.service.impl.FacultyService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/faculties")
+@RequestMapping("/faculty")
 public class FacultyController {
 
     private final FacultyService facultyService;
@@ -16,28 +16,28 @@ public class FacultyController {
         this.facultyService = facultyService;
     }
 
-    @GetMapping("{id}")
-    public Faculty get(@PathVariable("id") Long id) {
-        return facultyService.get(id);
-    }
-
     @PostMapping
-    public Faculty add(@RequestBody Faculty faculty) {
-        return facultyService.add(faculty);
-    }
-
-    @PutMapping("{id}")
-    public Faculty update(@PathVariable("id") Long id, @RequestBody Faculty faculty) {
-        return facultyService.update(id, faculty);
-    }
-
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") Long id) {
-        facultyService.delete(id);
+    public Faculty create(@RequestBody Faculty faculty) {
+        return facultyService.add(faculty.getName(), faculty.getColor());
     }
 
     @GetMapping
-    public List<Faculty> getByColor(@RequestParam("color") String color) {
+    public Faculty get(@RequestParam long id) {
+        return facultyService.get(id);
+    }
+
+    @PutMapping
+    public Faculty update(@RequestBody Faculty faculty) {
+        return facultyService.update(faculty.getId(), faculty.getName(), faculty.getColor());
+    }
+
+    @DeleteMapping
+    public Faculty delete(@RequestParam long id) {
+        return facultyService.delete(id);
+    }
+
+    @GetMapping("/by-color")
+    public List<Faculty> getByColor(@RequestParam String color) {
         return facultyService.getByColor(color);
     }
 }
