@@ -3,7 +3,7 @@ package ru.hogwarts.school.controller;
 import ru.hogwarts.school.entity.Faculty;
 import ru.hogwarts.school.entity.Student;
 import org.springframework.web.bind.annotation.*;
-import ru.hogwarts.school.service.impl.FacultyService;
+import ru.hogwarts.school.service.FacultyService;
 
 import java.util.List;
 import java.util.Set;
