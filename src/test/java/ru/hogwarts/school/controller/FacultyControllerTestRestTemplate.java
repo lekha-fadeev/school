@@ -30,9 +30,9 @@ public class FacultyControllerTestRestTemplate {
     @Test
     void create_success() throws Exception {
 
-        Faculty facultyForCreate = new Faculty("Иван", "red");
+        Faculty facultyForCreate = new Faculty("Гриф", "red");
 
-        Faculty expectedFaculty = new Faculty("Иван", "red");
+        Faculty expectedFaculty = new Faculty("Гриф", "red");
 
         Faculty postedFaculty = this.restTemplate.postForObject("http://localhost:" + port + "/student", facultyForCreate, Faculty.class);
         assertThat(postedFaculty).isNotNull();
@@ -43,7 +43,7 @@ public class FacultyControllerTestRestTemplate {
     @Test
     void get() throws Exception {
 
-        Faculty facultyForCreate = new Faculty("Иван", "red");
+        Faculty facultyForCreate = new Faculty("Гриф", "red");
 
         Faculty postedFaculty = this.restTemplate.postForObject("http://localhost:" + port + "/student", facultyForCreate, Faculty.class);
         Faculty actualFaculty = this.restTemplate.getForObject("http://localhost:" + port + "/student" + "?id=" + postedFaculty.getId(), Faculty.class);
