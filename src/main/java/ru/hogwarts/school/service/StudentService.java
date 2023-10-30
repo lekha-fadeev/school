@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.hogwarts.school.entity.Faculty;
 import ru.hogwarts.school.entity.Student;
 import ru.hogwarts.school.repository.StudentRepository;
@@ -11,6 +13,8 @@ import java.util.stream.Collectors;
 @Service
 public class StudentService {
 
+    private final Logger logger = LoggerFactory.getLogger(StudentService.class);
+
     private final StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
@@ -18,16 +22,19 @@ public class StudentService {
     }
 
     public Student add(String name, int age) {
+        logger.info("Был вызван метод add");
         Student newStudent = new Student(name, age);
         newStudent = studentRepository.save(newStudent);
         return newStudent;
     }
 
     public Student get(long id) {
+        logger.info("Был вызван метод get");
         return studentRepository.findById(id).get();
     }
 
     public Student update(long id, String name, int age) {
+        logger.info("Был вызван метод update");
         Student studentForUpdate = studentRepository.findById(id).get();
         studentForUpdate.setName(name);
         studentForUpdate.setAge(age);
@@ -35,38 +42,46 @@ public class StudentService {
     }
 
     public Student delete(long id) {
+        logger.info("Был вызван метод delete");
         Student studentForDelete = studentRepository.findById(id).get();
         studentRepository.deleteById(id);
         return studentForDelete;
     }
 
     public List<Student> getByAge(int age) {
+        logger.info("Был вызван метод getByAge");
         return studentRepository.findAll().stream()
                 .filter(student -> student.getAge() == age)
                 .collect(Collectors.toList());
     }
 
     public List<Student> getByAgeBetween(int min, int max) {
+        logger.info("Был вызван метод getByAgeBetween");
         return studentRepository.findAllByAgeBetween(min, max);
     }
 
     public Faculty getFacultyByStudentId(Long id) {
+        logger.info("Был вызван метод getFacultyByStudentId");
         return studentRepository.findById(id).get().getFaculty();
     }
 
     public List<Student> getByFacultyId(Long facultyId) {
+        logger.info("Был вызван метод getByFacultyId");
         return studentRepository.findByFacultyId(facultyId);
     }
 
     public Integer getCount() {
+        logger.info("Был вызван метод getCount");
         return studentRepository.getCount();
     }
 
     public Double getAvgAge() {
+        logger.info("Был вызван метод getAvgAge");
         return studentRepository.getAvgAge();
     }
 
     public List<Student> getLastFive() {
+        logger.info("Был вызван метод getLastFive");
         return studentRepository.getLastFive();
     }
 }

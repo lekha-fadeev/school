@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import ru.hogwarts.school.entity.Avatar;
@@ -27,6 +29,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Transactional
 public class AvatarService {
 
+    private final Logger logger = LoggerFactory.getLogger(AvatarService.class);
+
     private final StudentRepository studentRepository;
     private final AvatarRepository avatarRepository;
     private final String avatarsDir;
@@ -42,6 +46,7 @@ public class AvatarService {
     }
 
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        logger.info("Был вызван метод uploadAvatar");
         Student student = studentRepository.getById(studentId);
 
         Path filePath = Path.of(avatarsDir, student + "." + getExtensions(avatarFile.getOriginalFilename()));
@@ -67,11 +72,12 @@ public class AvatarService {
     }
 
     private String getExtensions(String fileName) {
+        logger.info("Был вызван метод getExtensions");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
     public ResponseEntity<byte[]> downloadAvatarByStudentFromDb(Long studentId) {
-
+        logger.info("Был вызван метод downloadAvatarByStudentFromDb");
         Optional<Avatar> avatarOpt = avatarRepository.findByStudentId(studentId);
 
         if (avatarOpt.isEmpty()) {
@@ -87,7 +93,7 @@ public class AvatarService {
     }
 
     public void downloadAvatarFromFileSystem(Long studentId, HttpServletResponse response) throws IOException {
-
+        logger.info("Был вызван метод downloadAvatarFromFileSystem");
         Optional<Avatar> avatarOpt = avatarRepository.findByStudentId(studentId);
 
         if (avatarOpt.isEmpty()) {
@@ -107,6 +113,7 @@ public class AvatarService {
     }
 
     public Page<Avatar> getWithPageable(int page, int count) {
+        logger.info("Был вызван метод getWithPageable");
         return avatarRepository.findAll(PageRequest.of(page, count));
     }
 }
