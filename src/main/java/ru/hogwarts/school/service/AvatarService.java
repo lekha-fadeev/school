@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import ru.hogwarts.school.entity.Avatar;
 import ru.hogwarts.school.entity.Student;
 import ru.hogwarts.school.repository.AvatarRepository;
@@ -102,5 +104,9 @@ public class AvatarService {
             response.setContentLength((int) avatar.getFileSize());
             is.transferTo(os);
         }
+    }
+
+    public Page<Avatar> getWithPageable(int page, int count) {
+        return avatarRepository.findAll(PageRequest.of(page, count));
     }
 }

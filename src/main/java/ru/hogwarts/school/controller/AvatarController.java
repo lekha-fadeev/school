@@ -1,5 +1,7 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.data.domain.Page;
+import ru.hogwarts.school.entity.Avatar;
 import ru.hogwarts.school.service.AvatarService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,5 +35,9 @@ public class AvatarController {
     @GetMapping(value = "/student/{id}/avatar-from-file")
     public void downloadAvatarFromFileSystem(@PathVariable Long id, HttpServletResponse response) throws IOException{
         avatarService.downloadAvatarFromFileSystem(id, response);
+    }
+    @GetMapping
+    public Page<Avatar> getWithPageable(@RequestParam Integer page, @RequestParam Integer count) throws IOException{
+        return avatarService.getWithPageable(page, count);
     }
 }
