@@ -84,4 +84,20 @@ public class StudentService {
         logger.info("Был вызван метод getLastFive");
         return studentRepository.getLastFive();
     }
+
+    public List<String> getAllWhereNameStartWithA() {
+        String startSymbol = "A";
+        return studentRepository.findAll().stream()
+                .map(student -> student.getName().toUpperCase())
+                .filter(name -> name.startsWith(startSymbol.toUpperCase()))
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    public double getAvgAgeWithStream() {
+        return studentRepository.findAll().stream()
+                .mapToDouble(student -> (double) student.getAge())
+                .average()
+                .orElse(0);
+    }
 }
